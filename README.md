@@ -10,15 +10,20 @@ The XENONnT experiment utilizes computed S2 light collection efficiencies (LCEs)
 
 #### Git repo organization
 
-Code is organized as follows, in TODO one can find a neatly formated version of hte working code (not tested but should work to just run the notebooks in sequence - this will take very long, 3+ days on my device). To do so adjust the docker entry points, I ran on my device rather than on server, minor adjustment is needed to get it running on server (documented in the first cells of the notebook). The docker file requires that paths be adjusted to run, specifically the link to the working directory, it must point to TODO when using the non-codedump folder and TODO when using the cleaned up folder. 
+The main results live in:
+- ActualThesisWork/CurveFit_FirstBiased mod.ipynb
+Here instructions can be found as to how to run all code found within the thesis, most people will only be interested in this file.
+- ActualThesisWork/MC_AnodeMesh.ipynb
+This contains the small monte carlo simulation I ran alongside some plotting that I did there
 
-The codedump folder is in repo path TODO, this contains the code I actually worked with, it is very messy with lots of things no longer relevant, notebooks were often not run in sequence but parts or explicitly in weird orders to achieve some desired effect. Consult this only if more information is required, I also recommend contacting me directly if this becomes required. 
+Miscellaneous files of relevance in that directory are 
 
-Data is available on the midway server under path TODO. This must be placed in TODO to get running. 
+functions.py : contains plotting, preprocessing, etc functions
 
-Likelihood Function reimplementations are available in folder TODO and are equivalent to the codedump folder. 
+layer_definitions.py : Contains tensorflow layer definitions alongside the means by which i save and load models (as my layers are not serializable) 
 
-TODO Replication Notebook overview
+The reimplementations directory contains JAX, Numba, and Tensorflow (minimal form) implementations of the Likelihood functions, I intended full reimplementation in each framework but this was never realized so some leftovers are present from that. With the test_implementations.ipynb comparing these implementations and containing the exact likelihood Cython implementation. 
 
-TODO codedump notebook overview 
+Data is available on the midway server under path TODO. This must be placed in the root path of the repo to get running, adjust docker-compose or paths as explained in ActualThesisWork/CurveFit_FirstBiased mod.ipynb. 
 
+The remaining files are kept for completeness sake, allthough most content is likely useless. 
