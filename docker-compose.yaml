@@ -1,0 +1,11 @@
+services:
+  straxen:
+    build: .
+    image: straxen
+    working_dir: /Code
+    volumes:
+      - ./:/Code  # Map the directory where docker-compose.yml resides to /Code in the container
+    ports:
+      - "8887:8887"  # Expose the port used by Jupyter
+        # None token so that the link is always the same and vscode accepts it
+    command: /bin/bash -c "source /opt/XENONnT/anaconda/bin/activate && conda activate XENONnT_el9.2024.10.4 && jupyter notebook --port 8887 --ip=0.0.0.0 --no-browser --allow-root --NotebookApp.token='None'"

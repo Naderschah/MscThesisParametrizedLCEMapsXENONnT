@@ -1,0 +1,12 @@
+services:
+  straxen:
+    build: .
+    image: pysr_straxen
+    working_dir: /Code
+    volumes:
+      - /home/felix/Thesis/:/Code  # Map the directory where docker-compose.yml resides to /Code in the container
+    ports:
+      - "8886:8886"  # Expose the port used by Jupyter
+        # None token so that the link is always the same and vscode accepts it
+    command: "jupyter notebook --port 8886 --ip=0.0.0.0 --no-browser --allow-root --NotebookApp.token='None'"
+

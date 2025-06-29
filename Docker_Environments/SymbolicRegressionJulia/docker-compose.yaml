@@ -1,0 +1,18 @@
+services:
+  sr-julia:
+    build: .
+    image: jlsr
+    container_name: jlsr
+    #network_mode: "host"
+    working_dir: /Code
+    volumes:
+      - /home/felix/nixmount/home/felix/Thesis/:/Code  # Map the directory where docker-compose.yml resides to /Code in the container
+   #   - "${SLURM_CONF_PATH}:/etc/slurm" 
+    environment:
+     JULIA_NUM_THREADS: "20"
+     #  - SLURM_CONF=/etc/slurm/slurm.conf
+    ports:
+      - "8885:8885"  # Expose the port used by Jupyter
+    #  - "6006:6006"  # Expose the port used by tensorboard
+        # None token so that the link is always the same and vscode accepts it
+    command: "jupyter notebook --port 8885 --allow-root --ip=0.0.0.0 " #  --no-browser --NotebookApp.token='None'

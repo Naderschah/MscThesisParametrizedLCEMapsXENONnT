@@ -1,0 +1,1 @@
+FROM intel/intel-optimized-xla:0.5.0-pip-jupyter

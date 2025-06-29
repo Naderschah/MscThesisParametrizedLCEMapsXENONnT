@@ -1,0 +1,6 @@
+Got the images from:
+https://xe1t-wiki.lngs.infn.it/doku.php?id=xenon:xenonnt:andrieu:lce_maps_s2_simulation&s[]=detailed&s[]=geant4&s[]=simulation&s[]=s2&s[]=photons&s[]=xenonnt
+
+Couldnt find the file
+
+Made csv with https://plotdigitizer.com/app

@@ -1,0 +1,62 @@
+# Need older for python3.8 & gpu 
+FROM tensorflow/tensorflow:2.13.0-gpu
+
+# ---------------------------- Install conda -----------------------------------
+ENV PATH="/root/miniconda3/bin:${PATH}"
+ARG PATH="/root/miniconda3/bin:${PATH}"
+
+# Install wget to fetch Miniconda
+RUN apt-get update && \
+    apt-get install -y wget bzip2 git python3 pip pipx && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install Miniconda on x86 or ARM platforms
+RUN arch=$(uname -m) && \
+    if [ "$arch" = "x86_64" ]; then \
+    MINICONDA_URL="https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh"; \
+    elif [ "$arch" = "aarch64" ]; then \
+    MINICONDA_URL="https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-aarch64.sh"; \
+    else \
+    echo "Unsupported architecture: $arch"; \
+    exit 1; \
+    fi && \
+    wget $MINICONDA_URL -O miniconda.sh && \
+    mkdir -p /root/.conda && \
+    bash miniconda.sh -b -p /root/miniconda3 && \
+    rm -f miniconda.sh
+
+RUN conda --version
+
+# -------------------------- Install python things -----------------------------
+# From docker image documentation, to change python version
+RUN conda install -y python=3.8 
+#    && pip install --root-user-action --no-cache-dir pipx \
+#    && pipx uninstall pipx \
+#    && pipx reinstall-all
+
+# TEnsorflow support table https://www.tensorflow.org/install/source#gpu
+
+# Because Conda always gets stuck on Solving environment
+# add priority check, make sure conda-forge is last (not present at the moment)
+# and install one by one to minimize environment check complexity
+# Each install takes about 20 s first takes 80s
+RUN conda config --set channel_priority strict
+RUN conda config --append channels conda-forge
+RUN conda install -y numpy 
+RUN conda install -y scipy 
+RUN conda install -y numba 
+RUN conda install -y jax 
+RUN conda install -y pandas 
+RUN conda install -y h5py 
+RUN conda install -y dask 
+#RUN conda install -y tables not available for 3.8 
+#RUN conda install -y blosc
+#RUN pip install blosc2
+RUN pip install jupyter
+RUN pip install straxen
+
+# Python3.8 -> tensorflow-2.13 -> Cuda 11.8
+RUN pip install tensorflow==2.13.0 keras
+ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/lib 
+RUN conda install -y bcolz==1.2.1

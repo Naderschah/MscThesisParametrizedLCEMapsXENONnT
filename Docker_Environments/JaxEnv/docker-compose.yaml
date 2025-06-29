@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  xla-jupyter:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8888:8888"
+    network_mode: "host"
+    volumes:
+      - ../../.:/Code  
+    working_dir: /Code
+    stdin_open: true
+    tty: true
